@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
+        
+        <title>
+          Project 2: Flack Chat
+        </title>
+    </head>
+
+    <body>
+      {% if session.username %} 
+                        <a id="newChannel" class="nav-link" href="/"> Create new channel</a>
+                
+                    Channels :
+                        <br><br>>
+                        {% for channel in channels %}
+                        <a href="/channels/{{ channel }}">{{ channel }}</a>
+                        {% endfor %}
+                       <br><br>
+                    WELCOME, {{ session.username}}
+                    <br><br><br>
+                        <a id="logout"href="/logout">Logout</a>               
+                    {% endif %}
+
+
+
+
+
+                    
+                  <br><br>
+                  <h2>Create a new channel or join an existent one!</h2>
+                  <br><br>
+        <form action="/create" method="post">
+            
+                <input type="text" class="form-control" name="channel" id="channel" autofocus>
+           
+            <button type="submit">Create</button>
+        </form>
+    
+        <script>
+    
+            if (localStorage.getItem('last_channel')) {
+                // Redirect to last channel
+                let channel = localStorage.getItem('last_channel');    
+                window.location.replace('/channels/' + channel);   
+            }
+    
+        </script>
+    </body>
+
+</html>
