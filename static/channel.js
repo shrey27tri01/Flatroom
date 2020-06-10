@@ -38,20 +38,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         // Send button emits a "message sent" event
-        document.querySelector('#send-button').addEventListener("click", () => {
+            document.getElementById("send-button").onclick = () => {
             
-            // Save time in format HH:MM:SS
-            let timestamp = new Date;
-            timestamp = timestamp.toLocaleTimeString();
-
-            // Save user input
-            let msg = document.getElementById("comment").value;
-
-            socket.emit('send message', msg, timestamp);
-            
-            // Clear input
-            document.getElementById("comment").value = '';
-        });
+                // Save time in format HH:MM:SS
+                let timestamp = new Date;
+                timestamp = timestamp.toLocaleTimeString();
+    
+                // Save user input
+                let msg = document.getElementById("comment").value;
+    
+                socket.emit('send message', msg, timestamp);
+                
+                // Clear input
+                document.getElementById("comment").value = '';
+            };
+        
+        
     });
     
     // When user joins a channel, add a message and on users connected.
@@ -69,8 +71,11 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('announce message', data => {
 
         // Format message
-        let row = '<' + `${data.timestamp}` + '> - ' + '[' + `${data.user}` + ']:  ' + `${data.msg}`
-        document.querySelector('#chat').value += row + '\n'
+        //let row = `${data.timestamp}` + ' -  ' + '[' + `${data.user}` + ']:  ' + `${data.msg}`;
+        //document.querySelector('#chat').value += row + '\n';
+        const li = document.createElement('li');
+        li.innerHTML = `${data.timestamp}` + ' -  ' + '[' + `${data.user}` + ']:  ' + `${data.msg}`
+        document.querySelector('#chat').append(li);
     })
 
     

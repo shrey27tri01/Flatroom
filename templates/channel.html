@@ -2,11 +2,9 @@
 <html lang="en">
 
     <head>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.slim.js"></script>
-        <script src="../static/channel.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>  
+        <script scr="/socket.io/socket.io.js"></script>       
         <title>
             {{ session.current_channel }}
         </title>
@@ -14,70 +12,52 @@
 
     <body>
       {% if session.username %} 
-                        <a id="newChannel" class="nav-link" href="/"> Create new channel</a>
+        <a id="newChannel" class="nav-link" href="/"> Create new channel</a>        
+            Channels :
+            <br><br>
+            {% for channel in channels %}
+                <a href="/channels/{{ channel }}">{{ channel }}</a>
+            {% endfor %}
+            <br><br>
+            WELCOME, {{ session.username}}
+            <br><br><br>
+            <a id="logout"href="/logout">Logout</a>               
+        {% endif %}
+                           
+        {{ session.current_channel }}
+        <br><br><br>
+
+        <div id="chat-box" class="list-group">
+            {#
+                http://jinja.pocoo.org/docs/2.10/templates/#whitespace-control
                 
-                    Channels :
-                        <br><br>>
-                        {% for channel in channels %}
-                        <a href="/channels/{{ channel }}">{{ channel }}</a>
-                        {% endfor %}
-                       <br><br>
-                    WELCOME, {{ session.username}}
-                    <br><br><br>
-                        <a id="logout"href="/logout">Logout</a>               
-                    {% endif %}
-
-
-
-
-
+                Minus(-) used to strip all the whitespace 
+                Only if there are messages, render it.
+            #}
+            <!--<textarea id="chat" cols="100" rows="20" readonly>
+                {%- if messages -%} 
+                    {%- for message in messages -%}
+                        {{ message[0] }} - [{{ message[1] }}]: {{ message [2] }} {{'\n'}}
+                    {%- endfor -%}
+                    {{ '----- These are old messages -----' }}{{- '\n' -}}
+                {%- endif -%}
+            </textarea>-->
+            <ul id="chat">
+                {%- if messages -%} 
+                    {%- for message in messages -%}
+                        {{ message[0] }} - [{{ message[1] }}]: {{ message [2] }} {{'\n'}}
+                    {%- endfor -%}
+                    {{ '----- These are old messages -----' }}{{- '\n' -}}
+                {%- endif -%}
+            </ul>
+        </div>
                     
-                    
-                            
-                                {{ session.current_channel }}
-                            
-                    <br><br><br>
-
-                    
-                        <div id="chat-box" class="list-group">
-                            {#
-                                http://jinja.pocoo.org/docs/2.10/templates/#whitespace-control
-                                
-                                Minus(-) used to strip all the whitespace 
-                                Only if there are messages, render it.
-                            #}
-                            <textarea id="chat" cols="30" rows="20" readonly>
-                                {%- if messages -%} 
-                                    {%- for message in messages -%}
-                                        {{ message[0] }} - [{{ message[1] }}]: {{ message [2] }} {{'\n'}}
-                                    {%- endfor -%}
-                                    {{ '----- These are old messages -----' }}{{- '\n' -}}
-                                {%- endif -%}
-                            </textarea>
-                        </div>
-                    
-                        <div id="message-box">
-                            
-                         
-                                    
-                                        
-                                            <input id="comment" class="form-control" size="50" autocomplete="off" autofocus>
-                                        
-                                   
-                                    
-                                        <button id="send-button" class="btn btn-success" type="reset">Send</button>
-                                    
-                                    
-                                        <button id="leave" type="button" class="btn btn-warning">Leave channel</button>
-                                    
-                               
-                            
-                        </div>
-                        <div id="file-selector">
-                            <input type="file" accept="image/*" id="exampleFormControlFile1">
-                            
-                        </div>
-                    
+        <div id="message-box">                
+            <input id="comment" size="50" autocomplete="off" autofocus>       
+            <button id="send-button" type="reset">Send</button>
+            <button id="leave" type="button">Leave channel</button>
+        </div>
+        <script type="text/javascript" src="../static/channel.js"></script>
     </body>
 
 </html>

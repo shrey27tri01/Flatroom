@@ -157,3 +157,4 @@ def send_msg(msg, timestamp):
         'timestamp': timestamp,
         'msg': msg}, 
         room=room)
+
