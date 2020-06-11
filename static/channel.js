@@ -64,18 +64,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#chat').value += row + '\n';
 
         // Save user current channel on localStorage
-        localStorage.setItem('last_channel', data.channel)
+        localStorage.setItem('last_channel', data.channel);
     })
 
     // When a message is announced, add it to the textarea.
     socket.on('announce message', data => {
 
         // Format message
-        //let row = `${data.timestamp}` + ' -  ' + '[' + `${data.user}` + ']:  ' + `${data.msg}`;
-        //document.querySelector('#chat').value += row + '\n';
-        const li = document.createElement('li');
-        li.innerHTML = `${data.timestamp}` + ' -  ' + '[' + `${data.user}` + ']:  ' + `${data.msg}`
-        document.querySelector('#chat').append(li);
+        let row = `<img src="{{ avatars.robohash(${data.user}) }}">  ${data.timestamp}` + ' -  ' + '[' + `${data.user}` + ']:  ' + `${data.msg}`;
+        document.querySelector('#chat').value += row + '\n';
+        //const li = document.createElement('li');
+        //li.innerHTML = `${data.timestamp}` + ' -  ' + '[' + `${data.user}` + ']: ' + `${data.msg}`;
+        //document.querySelector('#chat').append(li);
     })
 
     
