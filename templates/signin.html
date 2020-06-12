@@ -21,18 +21,11 @@
                     <br><br><br>
                         <a id="logout"href="/logout">Logout</a>               
                     {% endif %}
-
-
-
-
-
                     
                     <h4>Enter your username and sign in to start chatting!</h4>
                     <form action="/signin" method="POST">
-                        
-                            <input type="text" id="username" name="username" autofocus aria-describedby="userHelp">
-                            <small id="userHelp" >This username will be used to identify you on this site.</small>
-                        
+                        <input type="text" id="username" name="username" autofocus aria-describedby="userHelp">
+                        <small id="userHelp" >This username will be used to identify you on this site.</small>
                         <button type="submit">Sign In</button>
                     </form>
     </body>
