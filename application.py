@@ -2,10 +2,10 @@ import os
 
 from collections import deque
 
-from flask import Flask, render_template, session, request, redirect
+from flask import Flask, request, redirect, render_template, session
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
 
-from helpers import login_required
+from login import login_required
 
 from flask_avatars import Avatars
 
@@ -21,19 +21,19 @@ messages = {}
 @app.route("/")
 @login_required
 def index():
-    return render_template("index.html", channels = channels)
+    return render_template("dashboard.html", channels = channels)
 
-@app.route("/signin", methods=['GET','POST'])
-def signin():
+@app.route("/login", methods = ['GET','POST'])
+def login():
     session.clear()
 
     username = request.form.get("username")
     
     if request.method == "POST":
-        if len(username) < 1 or username == '':
-            return "username can't be empty"
         if username in users:
-            return "that username already exists!"                    
+            return render_template("login.html", channels = channels, alert = 1)                   
+        if len(username) < 1 or username == '':
+            return render_template("login.html", channels = channels, alert = 2)
         
         users.append(username)
         session['username'] = username
@@ -42,7 +42,7 @@ def signin():
         return redirect("/")
     
     else:
-        return render_template("signin.html")
+        return render_template("login.html")
 
 @app.route("/logout", methods=['GET'])
 def logout():
@@ -54,34 +54,34 @@ def logout():
 
     return redirect("/")
 
-@app.route("/create", methods=['GET','POST'])
-def create():
-    newChannel = request.form.get("channel")
+@app.route("/dashboard", methods=['GET', 'POST'])
+def dashboard():
+    new_channel = request.form.get("channel")
 
     if request.method == "POST":
-        if newChannel in channels:
-            return "that channel already exists!"
+        if new_channel in channels:
+            return render_template("dashboard.html", channels = channels, alert = 3)
         
-        channels.append(newChannel)
-        messages[newChannel] = deque()
+        channels.append(new_channel)
+        messages[new_channel] = deque()
 
-        return redirect("/channels/" + newChannel)
+        return redirect("/channels/" + new_channel)
     
     else:
         return render_template("channel.html", channels = channels)
 
-@app.route("/channels/<channel>", methods=['GET','POST'])
+@app.route("/channels/<channel>", methods = ['GET', 'POST'])
 @login_required
-def enter_channel(channel):
+def my_channel(channel):
     session['current_channel'] = channel
 
     if request.method == "POST":       
         return redirect("/")
     
     try:
-        return render_template("channel.html", channels= channels, messages=messages[channel])
+        return render_template("channel.html", channels = channels, messages = messages[channel])
     except:
-        return redirect("/create")
+        return redirect("/dashboard")
 
 @socketio.on("joined", namespace='/')
 def joined():
@@ -89,7 +89,7 @@ def joined():
 
     join_room(room)
     
-    emit('status', {'userJoined': session.get('username'), 'channel': room, 'msg': session.get('username') + ' has entered the channel'}, room = room)
+    emit('status', {'userJoined': session['username'], 'channel': room, 'msg': session.get('username') + ' has entered the channel'}, room = room)
 
 @socketio.on("left", namespace='/')
 def left():
@@ -97,7 +97,7 @@ def left():
 
     leave_room(room)
 
-    emit('status', {'msg': session.get('username') + ' has left the channel'}, room = room)
+    emit('status', {'msg': session['username'] + ' has left the channel'}, room = room)
 
 @socketio.on('send message')
 def send_msg(msg, timestamp):

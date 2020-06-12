@@ -13,30 +13,37 @@
     </head>
 
     <body>
-        {% if session.username %} 
-            <a id="newChannel" class="nav-link" href="/"> Create new channel</a>        
-            Channels :
+        
+            {% if session.username %} 
+            <a id="newChannel" class="nav-link" href="/"><h3>Dashboard</h3></a>
+            <br>
+            <h4 class="center">
+                Current channels:
+                <br>
+                {% for channel in channels %}
+                    <a href="/channels/{{ channel }}">{{ channel }}</a><br>
+                {% endfor %}
+            </h4>
             <br><br>
-            {% for channel in channels %}
-                <a href="/channels/{{ channel }}">{{ channel }}</a>
-            {% endfor %}
+            <h5><a id="logout"href="/logout">Logout</a></h5>           
             <br><br>
-            WELCOME, {{ session.username}}
-            <br><br><br>
-            <a id="logout"href="/logout">Logout</a>               
-        {% endif %}
                            
-        {{ session.current_channel }}
+        {% endif %}    
+        
+        
+                           
+        Current channel: {{ session.current_channel }}
+        <br>
+        You are: {{ session.username }}
         <br><br><br>
 
         <div id="chat-box" class="list-group">
             <textarea id="chat" cols="100" rows="20" readonly>
                 {%- if messages -%} 
                     {%- for message in messages -%}
-                        <img src="{{ avatars.robohash(message[1]) }}">
-                        {{ message[0] }} - [{{ message[1] }}]: {{ message [2] }} {{'\n'}}
+                        {{ message[1] }} at {{ message[0] }}: {{ message [2] }} {{'\n'}}
                     {%- endfor -%}
-                    {{ '----- These are old messages -----' }}{{- '\n' -}}
+                  
                 {%- endif -%}
             </textarea>
         </div>

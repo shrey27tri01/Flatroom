@@ -1,0 +1,94 @@
+.heading {
+    font-size: 50px;
+}
+
+.heading > #c1 {
+    color: red;
+}
+
+
+.heading > #c2 {
+    color: green;
+}
+
+
+.heading > #c3 {
+    color: blue;
+}
+
+
+.heading > #c4 {
+    color: yellow;
+}
+
+
+.heading > #c5 {
+    color: orange;
+}
+
+
+.heading > #c6 {
+    color: darkolivegreen;
+}
+
+
+.heading > #c7 {
+    color: purple;
+}
+
+
+.heading > #c8 {
+    color: brown;
+}
+
+.col-xl {
+    text-align: center;
+}
+
+#username {
+    width: 40%;
+}
+
+#firstbutton {
+    width: 40%;
+}
+
+#secondbutton {
+    width: 40%;
+}
+
+@media (min-width: 1000px) {
+    #col1 {
+        padding-right: 20px;
+        border-right: 1px solid black;
+    }
+}
+
+#namesofchannels {
+    font-size: 30px;
+}
+
+#info {
+    color: black;
+}
+
+#bg {
+    background-color: rgb(173, 173, 73);
+}
+
+.center {
+    text-align: center;
+}
+
+.wrapper {
+    text-align: center;
+}
+
+#leave {
+    position: absolute;
+    top: 50%;
+}
+
+.hidden{ 
+    display: none;
+}

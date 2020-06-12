@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     socket.on('status', data => {
-        let row = '<' + `${data.msg}` + '>'
+        const row = `${data.msg}`;
         document.querySelector('#chat').value += row + '\n';
 
         localStorage.setItem('last_channel', data.channel);
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.on('announce message', data => {
 
-        let row = `${data.timestamp}` + ' -  ' + '[' + `${data.user}` + ']:  ' + `${data.msg}`;
+        const row = `${data.user}` + ' at ' + `${data.timestamp}:` + ` ${data.msg}`;
         document.querySelector('#chat').value += row + '\n';
     });
 });
