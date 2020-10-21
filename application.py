@@ -9,6 +9,8 @@ from login import login_required
 
 from flask_avatars import Avatars
 
+SECRET_KEY = os.environ.get('SECRET_KEY')
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 avatars = Avatars(app)
