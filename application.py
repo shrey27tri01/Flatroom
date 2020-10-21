@@ -9,10 +9,8 @@ from login import login_required
 
 from flask_avatars import Avatars
 
-SECRET_KEY = "itsasecret"
-
 app = Flask(__name__)
-app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+app.secret_key = os.urandom(24)
 avatars = Avatars(app)
 socketio = SocketIO(app)
 
