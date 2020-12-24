@@ -28,7 +28,7 @@ To run the application, make sure you have python installed, then navigate to th
  
 Then visit the localhost website.
 
-Or visit the deployed website [here](https://flatroom.herokuapp.com/)!
+View it in action in [this video](https://www.youtube.com/watch?v=eQNQhHQo96A) or visit the deployed website [here](https://flatroom.herokuapp.com/)!
 
 
 
